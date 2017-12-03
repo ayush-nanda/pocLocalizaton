@@ -1,0 +1,40 @@
+
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+    <head>
+        <meta charset="UTF-8">
+        <title>Localization</title>
+         <script type="text/javascript">
+             function callit() {
+                 var xhttp = new XMLHttpRequest();
+                 xhttp.onreadystatechange = function() {
+                     if (this.readyState == 4 && this.status == 200) {
+                         document.getElementById("langString").innerHTML = JSON.parse(this.responseText).data;
+                     }
+                 };
+                  xhttp.open("GET", "{% url 'testApi' %}", true);
+                  xhttp.setRequestHeader("LANGUAGE-CODE", document.getElementById("language").value);
+                  xhttp.send();
+             }
+        </script>
+    </head>
+    <body>
+        <h1>
+            <div id="pageHeader">
+                {% trans "Welcome to "%}Webshar!
+            </div>
+            <br>
+            <br>
+            <div>
+                <select name="language" id="language" onchange="callit()">
+                    <option value="">-- Select Language --</option>
+                    <option value="en">English</option>
+                    <option value="fr">French</option>
+                </select>
+            </div>
+            <div id="langString"></div>
+        </h1>
+    </body>
+</html>
